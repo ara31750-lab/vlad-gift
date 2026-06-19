@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения, Влад!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* 1. АНИМАЦИЯ ЗВЕЗД И ФОН */
+        @keyframes twinkle {
+            from { background-position: 0 0, 0 0; }
+            to { background-position: 500px 500px, 100px 100px; }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #050510;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            animation: twinkle 20s infinite linear;
+            color: #d4af37;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        /* 2. ПЕРВАЯ СТРАНИЦА */
+        .left-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 5;
+        }
+
+        .main-card-wrapper {
+            border: 4px solid #d4af37;
+            box-shadow: 0 0 40px rgba(212,175,55,0.3);
+            line-height: 0;
+        }
+
+        .main-card {
+            max-height: 55vh; /* Уменьшили, чтобы влезло всё */
+            width: auto;
+            display: block;
+        }
+
+        .right-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+            z-index: 5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 46px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .wish {
+            font-size: 18px;
+            color: #ffffff;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            max-width: 450px;
+        }
+
+        .btn {
+            background: #d4af37;
+            color: #050510;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            width: fit-content;
+        }
+
+        .btn:hover { background: #fff; transform: scale(1.05); }
+
+        /* 3. ВТОРАЯ СТРАНИЦА (МОМЕНТЫ) */
+        #momentsOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #050510;
+            /* Повторяем звезды здесь */
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            animation: twinkle 20s infinite linear;
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .moments-header {
+            flex: 0 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .moments-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: #d4af37;
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 800px;
+        }
+
+        .moments-gallery {
+            flex: 1; /* Галерея забирает всё свободное место в центре */
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .moment-img-container {
+            width: 280px; /* Еще немного уменьшили */
+            height: 350px; 
+            border: 3px solid #d4af37;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            background: #111;
+        }
+
+        .img-left { transform: rotate(-5deg) translateY(-10px); }
+        .img-right { transform: rotate(4deg) translateY(10px); }
+
+        .moment-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .moments-footer {
+            flex: 0 0 auto;
+            margin-top: 20px;
+        }
+
+        /* Миниатюры */
+        .photo-scatter { display: flex; gap: 15px; margin-top: 20px; }
+        .scatter-img { width: 85px; height: 105px; border: 2px solid #fff; object-fit: cover; cursor: pointer; transition: 0.3s; }
+        #prediction { display: none; margin-top: 15px; font-size: 16px; font-style: italic; color: #fff; border-left: 2px solid #d4af37; padding-left: 12px; }
+    </style>
+</head>
+<body>
+
+    <div id="momentsOverlay">
+        <div class="moments-header">
+            <div class="moments-text">
+                У нас, к сожалению, нет общих фотографий,<br>
+                но есть моменты, которыми было здорово делиться
+            </div>
+        </div>
+        
+        <div class="moments-gallery">
+            <div class="moment-img-container img-left">
+                <img src="gen1.jpg" alt="Момент 1">
+            </div>
+            <div class="moment-img-container img-right">
+                <img src="gen2.jpg" alt="Момент 2">
+            </div>
+        </div>
+
+        <div class="moments-footer">
+            <button class="btn" style="background: transparent; border: 1px solid #fff; color: #fff;" onclick="document.getElementById('momentsOverlay').style.display='none'">
+                Вернуться назад
+            </button>
+        </div>
+    </div>
+
+    <div class="left-side">
+        <div class="main-card-wrapper">
+            <img id="mainDisplay" src="p1.jpg" class="main-card">
+        </div>
+        <button class="btn" onclick="document.getElementById('momentsOverlay').style.display='flex'">
+            ✨ Нажми сюда
+        </button>
+    </div>
+
+    <div class="right-side">
+        <h1>С Днём Рождения, Влад!</h1>
+        <div class="wish">
+            Пусть этот день будет наполнен теплом и вдохновением. А рядом будут люди, которые ценят и поддерживают.
+        </div>
+        
+        <audio id="myAudio" loop><source src="music.mp3" type="audio/mpeg"></audio>
+        
+        <button class="btn" id="musicBtn" onclick="document.getElementById('myAudio').play(); this.style.display='none';" style="margin-bottom: 12px;">
+            🎶 Включить музыку
+        </button>
+        
+        <button class="btn" style="background: #1e293b; color: #fff; border: 1px solid #d4af37;" onclick="document.getElementById('prediction').style.display='block'; this.style.display='none'">
+            Узнать предсказание
+        </button>
+        
+        <div id="prediction">Впереди тебя ждет год, полный новых открытий 🔮</div>
+
+        <div class="photo-scatter">
+            <img id="small1" src="p2.jpg" class="scatter-img" style="transform: rotate(-8deg);" onclick="changeAll(1)">
+            <img id="small2" src="p3.jpg" class="scatter-img" style="transform: rotate(8deg);" onclick="changeAll(2)">
+        </div>
+    </div>
+
+    <script>
+        const set1 = ["p2.jpg", "p5.jpg", "p7.jpg"]; 
+        const set2 = ["p3.jpg", "p6.jpg", "p4.jpg"];
+        let index1 = 0;
+        let index2 = 0;
+
+        function changeAll(buttonId) {
+            const main = document.getElementById("mainDisplay");
+            if (buttonId === 1) {
+                index1 = (index1 + 1) % set1.length;
+                document.getElementById("small1").src = set1[index1];
+                main.src = set1[index1];
+            } else {
+                index2 = (index2 + 1) % set2.length;
+                document.getElementById("small2").src = set2[index2];
+                main.src = set2[index2];
+            }
+        }
+    </script>
+</body>
+</html>
